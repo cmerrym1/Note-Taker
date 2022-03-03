@@ -36,7 +36,15 @@ function createNewNote(body, notesArray) {
   return note;
 }
 
-
+function validateNote(note) {
+  if (!note.title || typeof note.title !== 'string') {
+    return false;
+  }
+  if (!note.text || typeof note.text !== 'string') {
+    return false;
+  }
+  return true;
+}
   
 app.get('/api/notes', (req, res) => {
   let results = notes;
@@ -55,18 +63,11 @@ app.get('/api/notes', (req, res) => {
     }
   });
   
-  app.get('/api/notes/:id', (req, res) => {
-    const result = findById(req.params.id, notes);
-    if (result) {
-      res.json(result);
-    } else {
-      res.send(404);
-    }
-  });
-  
   app.post('/api/notes', (req, res) => {
     req.body.id = notes.length.toString();
-   {
+    if (!validateNote(req.body)) {
+      res.status(400).send('The note is not properly formatted.');
+    } else {
       const note = createNewNote(req.body, notes);
       res.json(note);
     }
