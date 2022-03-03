@@ -12,16 +12,16 @@ app.use(express.json());
 
 function filterByQuery(query, notesArray) {
   let titleArray = [];
-  let filteredResults = noteArray;
-  if (query.titleTraits) {
-    if (typeof query.titleTraits === 'string') {
-      titleArray = [query.titleTraits];
+  let filteredResults = notesArray;
+  if (query.title) {
+    if (typeof query.title === 'string') {
+      titleArray = [query.title];
     } else {
-      titleTraitsArray = query.titleTraits;
+      titleArray = query.title;
     }
     titleArray.forEach(trait => {
       filteredResults = filteredResults.filter(
-        note => note.titleTraits.indexOf(trait) !== -1
+        note => note.title.indexOf(trait) !== -1
       );
     });
   }
