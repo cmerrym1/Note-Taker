@@ -25,26 +25,13 @@ const hide = (elem) => {
 // activeNote is used to keep track of the note in the textarea
 let activeNote = {};
 
-const getNotes = (formData = {}) => {
-  let queryUrl = '/api/notes?';
-
-  Object.entries(formData).forEach(([key, value]) => {
-    queryUrl += `${key}=${value}&`;
+const getNotes = () =>
+  fetch('/api/notes', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
-
-  console.log(queryUrl);
-  fetch(queryUrl)
-  .then(response => {
-    if (!response.ok) {
-      return alert('Error: ' + response.statusText);
-    }
-    return response.json();
-  })
-  .then(noteData => {
-    console.log(noteData);
-    printResults(noteData);
-  });
-};
 
 const saveNote = (note) =>
   fetch('/api/notes', {
@@ -88,25 +75,6 @@ const handleNoteSave = () => {
     getAndRenderNotes();
     renderActiveNote();
   });
-
-  fetch('/api/notes', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(noteObject)
-  })
-    .then(response => {
-      if (response.ok) {
-        return response.json();
-      }
-      alert('Error: ' + response.statusText);
-    })
-    .then(postResponse => {
-      console.log(postResponse);
-      alert('Thank you for adding an note!');
-    });
 };
 
 // Delete the clicked note
