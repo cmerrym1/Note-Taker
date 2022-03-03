@@ -22,7 +22,7 @@ function filterByQuery(query, notesArray) {
     titleArray.forEach(trait => {
       filteredResults = filteredResults.filter(
         note => note.title.indexOf(trait) !== -1
-      );
+      ); 
     });
   }
   if (query.diet) {
